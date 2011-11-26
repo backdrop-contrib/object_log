@@ -1,0 +1,10 @@
+<?php
+/**
+ * Implements hook_schema().
+ *
+ * Create the cache table where we store objects.
+ */
+function object_log_schema() {
+  $schema['cache_object_log'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}

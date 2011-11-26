@@ -1,0 +1,40 @@
+<?php
+define('OBJECT_LOG_TABLE', 'cache_object_log');
+define('OBJECT_LOG_ADMIN_PATH', 'admin/reports/object_log');
+/**
+ * Implements hook_menu().
+ */
+function object_log_menu() {
+  $items = array();
+  $items[OBJECT_LOG_ADMIN_PATH] = array(
+    'title' => 'Object log',
+    'description' => 'View objects saved in the object cache.',
+    'page callback' => 'object_log_overview_page',
+    'access arguments' => array('access devel information'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'object_log.admin.inc',
+  );
+  $items[OBJECT_LOG_ADMIN_PATH . '/%'] = array(
+    'title' => 'Object log',
+    'description' => 'View objects saved in the object cache.',
+    'page callback' => 'object_log_object_page',
+    'page arguments' => array(3),
+    'access arguments' => array('access devel information'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'object_log.admin.inc',
+  );
+return $items;
+}
+
+/**
+ * Stores a variable in the object log.
+ *
+ * @param $cid
+ *   A name to use for this object when storing in the log table. Using an
+ *   already existing CID will overwrite that object in the log.
+ * @param $data
+ *   The variable to store.
+ */
+function object_log($cid, $data) {
+  cache_set($cid, $data, OBJECT_LOG_TABLE);
+}

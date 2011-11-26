@@ -1,0 +1,7 @@
+name = Object log
+description = "Allows developers to log variables for later inspection."
+core = 7.x
+version = 7.x-1.x-dev
+package = "Development"
+dependencies[] = devel
+
