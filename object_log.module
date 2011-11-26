@@ -1,12 +1,10 @@
 <?php
-define('OBJECT_LOG_ADMIN_PATH', 'admin/reports/object_log');
-
 /**
  * Implements hook_menu().
  */
 function object_log_menu() {
   $items = array();
-  $items[OBJECT_LOG_ADMIN_PATH] = array(
+  $items['admin/reports/object_log'] = array(
     'title' => 'Object log',
     'description' => 'View objects saved in the object log.',
     'page callback' => 'object_log_overview_page',
@@ -14,7 +12,7 @@ function object_log_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'object_log.admin.inc',
   );
-  $items[OBJECT_LOG_ADMIN_PATH . '/%'] = array(
+  $items['admin/reports/object_log/%'] = array(
     'title' => 'Object log',
     'description' => 'View objects saved in the object log.',
     'page callback' => 'object_log_object_page',

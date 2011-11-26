@@ -39,10 +39,10 @@ function object_log_build_log($label = NULL) {
   
   foreach ($result as $item) {
     if ($label) {
-      $link = l($item->label, OBJECT_LOG_ADMIN_PATH . '/' . $label . '/' . $item->label);
+      $link = l($item->label, 'admin/reports/object_log/' . $label . '/' . $item->label);
     }
     else {
-      $link = l($item->label, OBJECT_LOG_ADMIN_PATH . '/' . $item->label);
+      $link = l($item->label, 'admin/reports/object_log/' . $item->label);
     }
     $rows[] = array(
       $link,
@@ -77,8 +77,8 @@ function object_log_build_log($label = NULL) {
  */
 function object_log_object_page($label) {
   // Determine all of the requested objects.
-  if (strpos($_GET['q'], OBJECT_LOG_ADMIN_PATH) === 0) {
-    $labels = explode('/', str_replace(OBJECT_LOG_ADMIN_PATH . '/', '', $_GET['q']));
+  if (strpos($_GET['q'], 'admin/reports/object_log') === 0) {
+    $labels = explode('/', str_replace('admin/reports/object_log/', '', $_GET['q']));
   }
   else {
     $labels = array($label);
