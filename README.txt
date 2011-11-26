@@ -18,11 +18,11 @@ The Object log module depends on Devel module:
 When you reach a point in a code at which you would like to store a variable,
 call the object_log() function...
 
-  object_log($cid, $data);
+  object_log($label, $data);
 
-...where $cid is a string representing a label to give the object in the log,
+...where $label is a string representing a name to give the object in the log,
 and $data is the variable you wish to store. If there is already a stored object
-with the same $cid, that entry will be overwritten in the log.
+with the same $label, that entry will be overwritten in the log.
 
 Stored objects may be inspected by any user with the "access devel information"
 permission by going to admin/reports/object_log.  While inspecting an object,
