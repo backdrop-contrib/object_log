@@ -126,7 +126,7 @@ function object_log_build_objects($labels = array()) {
       $build['objects'][$delta] = $object;
     }
     else {
-      $markup = '<div class="object"><h4 class="object-label">' . check_plain($label) . '</h3><p>' . t('Not in log.') . '</p></div>';
+      $markup = '<div class="object"><h4 class="object-label">' . check_plain($label) . '</h4><p>' . t('Not in log.') . '</p></div>';
       $build['objects'][$delta] = array('#type' => 'markup', '#markup' => $markup);
     }
   }
