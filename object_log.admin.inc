@@ -187,5 +187,5 @@ function object_log_clear_form($form, &$form_state) {
 function object_log_clear_form_submit($form, &$form_state) {
   object_log_clear_log();
   drupal_set_message(t('Object log cleared.'));
-  $form_state['redirect'] = 'admin/reports';
+  $form_state['redirect'] = 'admin/reports/object_log';
 }
