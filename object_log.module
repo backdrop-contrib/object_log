@@ -1,5 +1,10 @@
 <?php
 /**
+ * @file
+ * Hooks and functions for Object Log.
+ */
+
+/**
  * Implements hook_menu().
  */
 function object_log_menu() {
@@ -21,22 +26,22 @@ function object_log_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'object_log.admin.inc',
   );
-return $items;
+  return $items;
 }
 
 /**
  * Store a variable in the object log.
  *
- * @param $label
+ * @param string $label
  *   A name to use for this object when storing in the log table. Using an
  *   already existing label will overwrite that object in the log.
- * @param $data
+ * @param object $data
  *   The variable to store.
  */
 function object_log($label, $data) {
   $fields = array(
     'data' => serialize($data),
-    'created' => REQUEST_TIME, 
+    'created' => REQUEST_TIME,
   );
   db_merge('object_log')
     ->key(array('label' => $label))
@@ -47,9 +52,9 @@ function object_log($label, $data) {
 /**
  * Retrieve an object row from the object log.
  *
- * @param $label
+ * @param string $label
  *   The label of an object to be retrieved.
- * @return
+ * @return object
  *   The database row as a fetched object. $log->data contains the actual
  *   stored object.
  */

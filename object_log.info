@@ -1,6 +1,6 @@
 name = Object log
 description = "Allows developers to log variables for later inspection."
-core = 7.x
+backdrop = 1.x
+type = module
 package = "Development"
 dependencies[] = devel
-

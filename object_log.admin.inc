@@ -1,10 +1,15 @@
 <?php
 /**
+ * @file
+ * Admin screens for Object Log.
+ */
+
+/**
  * Menu callback function for admin/reports/object_log.
  */
 function object_log_overview_page() {
   $build = array();
-  $build['object_log_clear'] = drupal_get_form('object_log_clear_form');
+  $build['object_log_clear'] = backdrop_get_form('object_log_clear_form');
   $build['object_log'] = object_log_build_log();
   return $build;
 }
@@ -12,9 +17,9 @@ function object_log_overview_page() {
 /**
  * Build a render array showing objects stored in the object log.
  *
- * @param $label
+ * @param string $label
  *   If set, create links for viewing the new object alongside the current one.
- * @return
+ * @return array
  *   A render array for a table of links to stored objects.
  */
 function object_log_build_log($label = NULL) {
@@ -36,7 +41,7 @@ function object_log_build_log($label = NULL) {
     ->limit(25)
     ->orderByHeader($header)
     ->execute();
-  
+
   foreach ($result as $item) {
     if ($label) {
       $link = l($item->label, 'admin/reports/object_log/' . $label . '/' . $item->label);
@@ -49,7 +54,7 @@ function object_log_build_log($label = NULL) {
       format_date($item->created, 'short'),
     );
   }
-  
+
   $build = array(
     'object_log' => array(
       '#theme' => 'table',
@@ -62,7 +67,7 @@ function object_log_build_log($label = NULL) {
       '#theme' => 'pager',
     ),
   );
-  
+
   return $build;
 }
 
@@ -72,7 +77,7 @@ function object_log_build_log($label = NULL) {
  * This function will also look at the given query path to find any additional
  * objects that may have been requested.
  *
- * @param $label
+ * @param string $label
  *   The label of an object to inspect.
  */
 function object_log_object_page($label) {
@@ -84,7 +89,7 @@ function object_log_object_page($label) {
     $labels = array($label);
   }
   $build = object_log_build_objects($labels);
-  
+
   // Display the log table so the user can select another object to compare to
   // the given object.
   $build['object_log'] = array(
@@ -103,21 +108,25 @@ function object_log_object_page($label) {
 /**
  * Display stored objects for inspection.
  *
- * @param $labels
+ * @param array $labels
  *   An array of labels representing objects to be displayed.
- * @return
+ * @return array
  *   A render array of objects ready for inspection.
  */
-function object_log_build_objects($labels = array()) {
+function object_log_build_objects(array $labels = array()) {
   $build = array();
   $build['objects'] = array(
     '#type' => 'container',
     '#attributes' => array(
       'id' => 'object_log_objects',
-      'class' => array('object-log', 'object-count-' . count($labels), 'clearfix'),
+      'class' => array(
+        'object-log',
+        'object-count-' . count($labels),
+        'clearfix',
+      ),
     ),
     '#attached' => array(
-      'css' => array(drupal_get_path('module', 'object_log') . '/object_log.admin.css'),
+      'css' => array(backdrop_get_path('module', 'object_log') . '/object_log.admin.css'),
     ),
   );
 
@@ -127,7 +136,10 @@ function object_log_build_objects($labels = array()) {
     }
     else {
       $markup = '<div class="object"><h4 class="object-label">' . check_plain($label) . '</h4><p>' . t('Not in log.') . '</p></div>';
-      $build['objects'][$delta] = array('#type' => 'markup', '#markup' => $markup);
+      $build['objects'][$delta] = array(
+        '#type' => 'markup',
+        '#markup' => $markup,
+      );
     }
   }
   return $build;
@@ -136,9 +148,9 @@ function object_log_build_objects($labels = array()) {
 /**
  * Build a render array for a stored object.
  *
- * @param $label
+ * @param string $label
  *   The label of the object to display.
- * @return
+ * @return array
  *   A render array for the object.
  */
 function object_log_build_object($label) {
@@ -155,7 +167,7 @@ function object_log_build_object($label) {
   );
   $build['title'] = array(
     '#type' => 'markup',
-    '#markup' => check_plain($label),
+    '#markup' => check_plain($label) . ' (' . format_date($log->created, 'short') . ')',
     '#prefix' => '<h4 class="object-label">',
     '#suffix' => '</h4>',
   );
@@ -174,8 +186,8 @@ function object_log_build_object($label) {
 function object_log_clear_form($form, &$form_state) {
   $form = array();
   $form['clear'] = array(
-    '#type' => 'submit', 
-    '#value' => t('Clear object log'), 
+    '#type' => 'submit',
+    '#value' => t('Clear object log'),
     '#submit' => array('object_log_clear_form_submit'),
   );
   return $form;
@@ -186,6 +198,6 @@ function object_log_clear_form($form, &$form_state) {
  */
 function object_log_clear_form_submit($form, &$form_state) {
   object_log_clear_log();
-  drupal_set_message(t('Object log cleared.'));
+  backdrop_set_message(t('Object log cleared.'));
   $form_state['redirect'] = 'admin/reports/object_log';
 }
